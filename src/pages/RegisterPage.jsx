@@ -5,8 +5,10 @@ import toast from "react-hot-toast";
 import { logo } from "../assets/images";
 import { authService } from "../services/authService";
 import { setLoading, setError, clearError } from "../redux/authSlice";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
@@ -80,48 +82,46 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 ">
       <div className="w-full max-w-md">
         {/* Logo Section */}
-        <div className="text-center mb-4">
-          <div className="bg-white p-3 rounded-md shadow-lg inline-block  transform hover:scale-105 transition-transform duration-300">
+        <div className="mb-4 text-center">
+          <div className="inline-block p-3 transition-transform duration-300 transform bg-white rounded-md shadow-lg hover:scale-105">
             <img src={logo} alt="logo" className="w-20" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Create Account
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">
+            {t("register.title")}
           </h1>
-          <p className="text-gray-600">
-            Join us and start managing your admin panel
-          </p>
+          <p className="text-gray-600">{t("register.subtitle")}</p>
         </div>
 
         {/* Register Form */}
-        <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-white/20">
+        <div className="p-8 border shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl border-white/20">
           {error && (
-            <div className="mb-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+            <div className="p-3 mb-3 text-sm text-red-700 bg-red-100 border border-red-400 rounded-lg">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Full Name
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("register.fullName")}
               </label>
               <div className="relative">
                 <input
                   type="text"
                   name="name"
-                  placeholder="Enter your full name"
-                  className="w-full py-3 px-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("register.enterFullName")}
+                  className="w-full px-4 py-3 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.name}
                   onChange={handleInputChange}
                   disabled={loading}
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="w-5 h-5 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -138,23 +138,23 @@ const RegisterPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Email Address
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("register.email")}
               </label>
               <div className="relative">
                 <input
                   type="email"
                   name="email"
-                  placeholder="Enter your email"
-                  className="w-full py-3 px-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("register.fulladdress")}
+                  className="w-full px-4 py-3 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.email}
                   onChange={handleInputChange}
                   disabled={loading}
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="w-5 h-5 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -171,15 +171,15 @@ const RegisterPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Password
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("register.password")}
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="Enter your password"
-                  className="w-full py-3 px-4 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("register.enterPassword")}
+                  className="w-full px-4 py-3 pr-12 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.password}
                   onChange={handleInputChange}
@@ -188,12 +188,12 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-gray-100 rounded-r-xl transition-colors duration-200"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 transition-colors duration-200 hover:bg-gray-100 rounded-r-xl"
                   disabled={loading}
                 >
                   {showPassword ? (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -207,7 +207,7 @@ const RegisterPage = () => {
                     </svg>
                   ) : (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -229,20 +229,20 @@ const RegisterPage = () => {
                 </button>
               </div>
               <p className="text-xs text-gray-500">
-                Password must be at least 8 characters long
+                {t("register.passwordHint")}
               </p>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Confirm Password
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("register.confirmPassword")}
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
-                  placeholder="Confirm your password"
-                  className="w-full py-3 px-4 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("register.confirmPasswordPlaceholder")}
+                  className="w-full px-4 py-3 pr-12 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
@@ -251,12 +251,12 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-gray-100 rounded-r-xl transition-colors duration-200"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 transition-colors duration-200 hover:bg-gray-100 rounded-r-xl"
                   disabled={loading}
                 >
                   {showConfirmPassword ? (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -270,7 +270,7 @@ const RegisterPage = () => {
                     </svg>
                   ) : (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -296,12 +296,12 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 focus:ring-4 focus:ring-purple-300 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-600 text-white py-3 px-6 rounded-xl font-semibold focus:ring-4 focus:ring-purple-300 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? (
                 <div className="flex items-center justify-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -320,10 +320,10 @@ const RegisterPage = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Creating Account...
+                  {t("register.creatingAccount")}
                 </div>
               ) : (
-                "Create Account"
+                t("register.createAccount")
               )}
             </button>
           </form>
@@ -331,29 +331,25 @@ const RegisterPage = () => {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{" "}
+              {t("register.alreadyHaveAccount")}{" "}
               <Link
                 to="/login"
-                className="text-purple-600 hover:text-purple-800 font-semibold transition-colors duration-200"
+                className="font-semibold text-purple-600 transition-colors duration-200 hover:text-purple-800"
               >
-                Sign In
+                {t("register.signIn")}
               </Link>
             </p>
           </div>
 
           {/* Additional Elements */}
           <div className="mt-4 text-center">
-            <p className="text-xs text-gray-500">
-              By creating an account, you agree to our Terms of Service
-            </p>
+            <p className="text-xs text-gray-500">{t("register.by")}</p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-500">
-            © 2025 Admin Dashboard. All rights reserved.
-          </p>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">{t("register.footer")}</p>
         </div>
       </div>
     </div>

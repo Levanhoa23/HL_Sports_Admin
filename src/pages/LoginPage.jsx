@@ -11,7 +11,10 @@ import {
   clearError,
 } from "../redux/authSlice";
 
+import { useTranslation } from "react-i18next";
+
 const LoginPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
@@ -72,46 +75,46 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="w-full max-w-md">
         {/* Logo Section */}
-        <div className="text-center mb-6">
-          <div className="bg-white p-3 rounded-md shadow-lg inline-block mb-4 transform hover:scale-105 transition-transform duration-300">
+        <div className="mb-6 text-center">
+          <div className="inline-block p-3 mb-4 transition-transform duration-300 transform bg-white rounded-md shadow-lg hover:scale-105">
             <img src={logo} alt="logo" className="w-20" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Welcome Back
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">
+            {t("login.welcome")}
           </h1>
-          <p className="text-gray-600">Please sign in to your account</p>
+          <p className="text-gray-600">{t("login.subtitle")}</p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-white/20">
+        <div className="p-8 border shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl border-white/20">
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+            <div className="p-3 mb-4 text-sm text-red-700 bg-red-100 border border-red-400 rounded-lg">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Email Address
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("login.emailLabel")}
               </label>
               <div className="relative">
                 <input
                   type="email"
                   name="email"
-                  placeholder="Enter your email"
-                  className="w-full py-3 px-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("login.emailPlaceholder")}
+                  className="w-full px-4 py-3 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.email}
                   onChange={handleInputChange}
                   disabled={loading}
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="w-5 h-5 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -128,15 +131,15 @@ const LoginPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 block">
-                Password
+              <label className="block text-sm font-semibold text-gray-700">
+                {t("login.passwordLabel")}
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="Enter your password"
-                  className="w-full py-3 px-4 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                  placeholder={t("login.passwordPlaceholder")}
+                  className="w-full px-4 py-3 pr-12 transition-all duration-200 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/50 backdrop-blur-sm hover:bg-white/70"
                   required
                   value={formData.password}
                   onChange={handleInputChange}
@@ -145,12 +148,12 @@ const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-gray-100 rounded-r-xl transition-colors duration-200"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 transition-colors duration-200 hover:bg-gray-100 rounded-r-xl"
                   disabled={loading}
                 >
                   {showPassword ? (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -164,7 +167,7 @@ const LoginPage = () => {
                     </svg>
                   ) : (
                     <svg
-                      className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                      className="w-5 h-5 text-gray-400 hover:text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -195,7 +198,7 @@ const LoginPage = () => {
               {loading ? (
                 <div className="flex items-center justify-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -214,10 +217,10 @@ const LoginPage = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Signing In...
+                  {t("login.signingIn")}
                 </div>
               ) : (
-                "Sign In"
+                t("login.signIn")
               )}
             </button>
           </form>
@@ -225,29 +228,25 @@ const LoginPage = () => {
           {/* Register Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{" "}
+              {t("login.noAccount")}{" "}
               <Link
                 to="/register"
-                className="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-200"
+                className="font-semibold text-blue-600 transition-colors duration-200 hover:text-blue-800"
               >
-                Create Account
+                {t("login.createAccount")}
               </Link>
             </p>
           </div>
 
           {/* Additional Elements */}
           <div className="mt-4 text-center">
-            <p className="text-xs text-gray-500">
-              Secure access • Protected by encryption
-            </p>
+            <p className="text-xs text-gray-500">{t("login.secureAccess")}</p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-500">
-            © 2025 Admin Dashboard. All rights reserved.
-          </p>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">{t("login.footer")}</p>
         </div>
       </div>
     </div>

@@ -262,10 +262,10 @@ const Brands = () => {
             {/* Skeleton for table view on large screens */}
             <div className="hidden overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm lg:block">
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full h-full">
                   <thead className="border-b border-gray-200 bg-gray-50">
                     <tr>
-                      <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      <th className="w-full h-[30px] px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Logo
                       </th>
                       <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
