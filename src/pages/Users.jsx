@@ -53,11 +53,11 @@ const Users = ({ token }) => {
           if (response.data.success) {
             dispatch(setUser(response.data.user));
           } else {
-            console.log("❌ Profile fetch failed:", response.data.message);
+            console.log(" Profile fetch failed:", response.data.message);
           }
         } catch (error) {
           console.log(
-            "🚨 Failed to fetch user profile:",
+            " Failed to fetch user profile:",
             error?.response?.data || error?.message
           );
         }
@@ -81,13 +81,10 @@ const Users = ({ token }) => {
         setFilteredUsers(data?.users);
       } else {
         toast.error(data?.message || "Failed to fetch users");
-        console.log("❌ API Error:", data);
+        console.log(" API Error:", data);
       }
     } catch (error) {
-      console.log(
-        "🚨 Request failed:",
-        error?.response?.data || error?.message
-      );
+      console.log(" Request failed:", error?.response?.data || error?.message);
       toast.error(
         error?.response?.data?.message ||
           error?.message ||
@@ -174,8 +171,8 @@ const Users = ({ token }) => {
   const UserSkeleton = () => (
     <>
       {/* Desktop Table Skeleton */}
-      <div className="hidden lg:block bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
-        <div className="bg-gray-50 px-6 py-3">
+      <div className="hidden overflow-hidden bg-white border border-gray-200 rounded-lg lg:block animate-pulse">
+        <div className="px-6 py-3 bg-gray-50">
           <div className="grid grid-cols-6 gap-4">
             <div className="h-3 bg-gray-200 rounded"></div>
             <div className="h-3 bg-gray-200 rounded"></div>
@@ -188,26 +185,26 @@ const Users = ({ token }) => {
         <div className="divide-y divide-gray-200">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="px-6 py-4">
-              <div className="grid grid-cols-6 gap-4 items-center">
+              <div className="grid items-center grid-cols-6 gap-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                   <div className="space-y-2">
-                    <div className="h-3 bg-gray-200 rounded w-24"></div>
-                    <div className="h-2 bg-gray-200 rounded w-32"></div>
+                    <div className="w-24 h-3 bg-gray-200 rounded"></div>
+                    <div className="w-32 h-2 bg-gray-200 rounded"></div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-16"></div>
-                  <div className="h-4 bg-gray-200 rounded w-12"></div>
+                  <div className="w-16 h-4 bg-gray-200 rounded"></div>
+                  <div className="w-12 h-4 bg-gray-200 rounded"></div>
                 </div>
                 <div className="space-y-2">
-                  <div className="h-3 bg-gray-200 rounded w-20"></div>
-                  <div className="h-3 bg-gray-200 rounded w-16"></div>
+                  <div className="w-20 h-3 bg-gray-200 rounded"></div>
+                  <div className="w-16 h-3 bg-gray-200 rounded"></div>
                 </div>
-                <div className="h-3 bg-gray-200 rounded w-24"></div>
-                <div className="h-3 bg-gray-200 rounded w-20"></div>
-                <div className="flex gap-2 justify-end">
-                  <div className="h-6 bg-gray-200 rounded w-12"></div>
+                <div className="w-24 h-3 bg-gray-200 rounded"></div>
+                <div className="w-20 h-3 bg-gray-200 rounded"></div>
+                <div className="flex justify-end gap-2">
+                  <div className="w-12 h-6 bg-gray-200 rounded"></div>
                   <div className="h-6 bg-gray-200 rounded w-14"></div>
                 </div>
               </div>
@@ -228,13 +225,13 @@ const Users = ({ token }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-3 sm:p-4 lg:p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen p-3 bg-gray-50 sm:p-4 lg:p-6">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <Title className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              <Title className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
                 Users Management
               </Title>
               <p className="text-gray-600">
@@ -267,11 +264,11 @@ const Users = ({ token }) => {
         </div>
 
         {/* Search and Filter Bar */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
-          <div className="flex flex-col sm:flex-row gap-4">
+        <div className="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
               <div className="relative">
-                <IoMdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <IoMdSearch className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
                   type="text"
                   placeholder="Search users by name or email..."
@@ -295,11 +292,11 @@ const Users = ({ token }) => {
           </div>
 
           {/* Results summary */}
-          <div className="mt-4 flex items-center justify-between">
+          <div className="flex items-center justify-between mt-4">
             <div className="text-sm text-gray-600">
               Showing {filteredUsers.length} of {usersList.length} users
             </div>
-            <div className="text-xs text-gray-500 hidden sm:block">
+            <div className="hidden text-xs text-gray-500 sm:block">
               {filteredUsers.length > 0 && (
                 <>
                   <span className="lg:hidden">Card View</span>
@@ -316,27 +313,27 @@ const Users = ({ token }) => {
         ) : filteredUsers?.length > 0 ? (
           <>
             {/* Desktop Table View */}
-            <div className="hidden lg:block bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="hidden overflow-hidden bg-white border border-gray-200 rounded-lg lg:block">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         User
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Role & Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Activity
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Location
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Member Since
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
                         Actions
                       </th>
                     </tr>
@@ -351,20 +348,20 @@ const Users = ({ token }) => {
                                 <img
                                   src={user.avatar}
                                   alt={user.name}
-                                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                                  className="object-cover w-10 h-10 border-2 border-gray-200 rounded-full"
                                 />
                               ) : (
-                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                                <div className="flex items-center justify-center w-10 h-10 font-semibold text-white rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
                                   {user.name.charAt(0).toUpperCase()}
                                 </div>
                               )}
                               {user.role === "admin" && (
-                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                                <div className="absolute flex items-center justify-center w-4 h-4 bg-yellow-400 rounded-full -top-1 -right-1">
                                   <FaCrown className="text-xs text-white" />
                                 </div>
                               )}
                               {user.isActive && (
-                                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
+                                <div className="absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full -bottom-1 -right-1"></div>
                               )}
                             </div>
                             <div className="ml-4">
@@ -415,20 +412,20 @@ const Users = ({ token }) => {
                             )}
                             <div className="flex gap-2">
                               {user.orders && user.orders.length > 0 && (
-                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-50 text-blue-800">
+                                <span className="inline-flex items-center px-2 py-1 text-xs text-blue-800 rounded-full bg-blue-50">
                                   {user.orders.length} orders
                                 </span>
                               )}
                               {user.userCart &&
                                 Object.keys(user.userCart).length > 0 && (
-                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-orange-50 text-orange-800">
+                                  <span className="inline-flex items-center px-2 py-1 text-xs text-orange-800 rounded-full bg-orange-50">
                                     {Object.keys(user.userCart).length} cart
                                   </span>
                                 )}
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        <td className="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
                           {/* Show new addresses array if available, otherwise fallback to legacy address */}
                           {user.addresses && user.addresses.length > 0 ? (
                             <div>
@@ -452,7 +449,7 @@ const Users = ({ token }) => {
                                   </div>
                                 ))}
                               {user.addresses.length > 1 && (
-                                <div className="text-xs text-blue-600 mt-1">
+                                <div className="mt-1 text-xs text-blue-600">
                                   +{user.addresses.length - 1} more address
                                   {user.addresses.length > 2 ? "es" : ""}
                                 </div>
@@ -474,10 +471,10 @@ const Users = ({ token }) => {
                             <span className="text-gray-400">No addresses</span>
                           )}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        <td className="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
                           {new Date(user.createdAt).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                           <div className="flex justify-end gap-2">
                             {isAdmin ? (
                               <>
@@ -515,45 +512,45 @@ const Users = ({ token }) => {
             </div>
 
             {/* Mobile/Tablet Card View */}
-            <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 gap-4 lg:hidden sm:grid-cols-2 sm:gap-6">
               {filteredUsers.map((user) => (
                 <div
                   key={user._id}
-                  className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200"
+                  className="transition-shadow duration-200 bg-white border border-gray-200 rounded-lg hover:shadow-md"
                 >
                   <div className="p-4 sm:p-6">
                     {/* User Header */}
-                    <div className="flex items-center space-x-4 mb-4">
+                    <div className="flex items-center mb-4 space-x-4">
                       <div className="relative">
                         {user.avatar ? (
                           <img
                             src={user.avatar}
                             alt={user.name}
-                            className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                            className="object-cover w-12 h-12 border-2 border-gray-200 rounded-full"
                           />
                         ) : (
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-lg">
+                          <div className="flex items-center justify-center w-12 h-12 text-lg font-semibold text-white rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
                             {user.name.charAt(0).toUpperCase()}
                           </div>
                         )}
                         {user.role === "admin" && (
-                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center">
+                          <div className="absolute flex items-center justify-center w-5 h-5 bg-yellow-400 rounded-full -top-1 -right-1">
                             <FaCrown className="text-xs text-white" />
                           </div>
                         )}
                         {user.isActive && (
-                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+                          <div className="absolute w-4 h-4 bg-green-400 border-2 border-white rounded-full -bottom-1 -right-1"></div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate text-base sm:text-lg">
+                        <h3 className="text-base font-semibold text-gray-900 truncate sm:text-lg">
                           {user.name}
                         </h3>
                         <p className="text-sm text-gray-500 truncate">
                           {user.email}
                         </p>
                         {/* Mobile role indicator */}
-                        <div className="sm:hidden mt-1">
+                        <div className="mt-1 sm:hidden">
                           <span
                             className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                               user.role === "admin"
@@ -574,9 +571,9 @@ const Users = ({ token }) => {
                     </div>
 
                     {/* User Details */}
-                    <div className="space-y-3 mb-4">
+                    <div className="mb-4 space-y-3">
                       {/* Desktop role display */}
-                      <div className="hidden sm:flex items-center justify-between">
+                      <div className="items-center justify-between hidden sm:flex">
                         <span className="text-sm text-gray-500">Role:</span>
                         <span
                           className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
@@ -613,7 +610,7 @@ const Users = ({ token }) => {
                           <span className="text-sm text-gray-500">
                             Last Login:
                           </span>
-                          <span className="text-xs text-gray-600 flex items-center gap-1">
+                          <span className="flex items-center gap-1 text-xs text-gray-600">
                             <IoMdTime />
                             {new Date(user.lastLogin).toLocaleDateString()}
                           </span>
@@ -623,7 +620,7 @@ const Users = ({ token }) => {
                       {user.orders && user.orders.length > 0 && (
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-gray-500">Orders:</span>
-                          <span className="text-sm font-medium text-gray-900 bg-blue-50 px-2 py-1 rounded-full">
+                          <span className="px-2 py-1 text-sm font-medium text-gray-900 rounded-full bg-blue-50">
                             {user.orders.length}
                           </span>
                         </div>
@@ -636,7 +633,7 @@ const Users = ({ token }) => {
                             <span className="text-sm text-gray-500">
                               Cart Items:
                             </span>
-                            <span className="text-sm font-medium text-gray-900 bg-orange-50 px-2 py-1 rounded-full">
+                            <span className="px-2 py-1 text-sm font-medium text-gray-900 rounded-full bg-orange-50">
                               {Object.keys(user.userCart).length}
                             </span>
                           </div>
@@ -703,14 +700,14 @@ const Users = ({ token }) => {
                         <>
                           <button
                             onClick={() => handleEditUser(user)}
-                            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors font-medium"
+                            className="flex items-center justify-center flex-1 gap-1 px-3 py-2 text-sm font-medium text-blue-600 transition-colors rounded-lg bg-blue-50 hover:bg-blue-100"
                           >
                             <FaEdit />
                             Edit
                           </button>
                           <button
                             onClick={() => handleRemoveUser(user._id)}
-                            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors font-medium"
+                            className="flex items-center justify-center flex-1 gap-1 px-3 py-2 text-sm font-medium text-red-600 transition-colors rounded-lg bg-red-50 hover:bg-red-100"
                           >
                             <FaTrash />
                             Delete
@@ -719,7 +716,7 @@ const Users = ({ token }) => {
                       ) : (
                         <button
                           onClick={() => handleViewUser(user)}
-                          className="w-full flex items-center justify-center gap-1 px-3 py-2 text-sm bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                          className="flex items-center justify-center w-full gap-1 px-3 py-2 text-sm font-medium text-gray-600 transition-colors rounded-lg bg-gray-50 hover:bg-gray-100"
                         >
                           <FaEye />
                           View Details
@@ -733,16 +730,16 @@ const Users = ({ token }) => {
           </>
         ) : (
           /* Empty State */
-          <div className="bg-white rounded-lg border border-gray-200 p-8 sm:p-12 text-center">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="p-8 text-center bg-white border border-gray-200 rounded-lg sm:p-12">
+            <div className="flex items-center justify-center w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full">
               <FaUser className="text-2xl text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            <h3 className="mb-2 text-xl font-semibold text-gray-700">
               {searchTerm || roleFilter !== "all"
                 ? "No users match your search"
                 : "No users found"}
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="mb-6 text-gray-500">
               {searchTerm || roleFilter !== "all"
                 ? "Try adjusting your search criteria or filters"
                 : isAdmin
@@ -752,7 +749,7 @@ const Users = ({ token }) => {
             {isAdmin && (
               <button
                 onClick={openLoginForm}
-                className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                className="px-6 py-3 font-medium text-white transition-colors bg-black rounded-lg hover:bg-gray-800"
               >
                 Add User
               </button>

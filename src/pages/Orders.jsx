@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import Title from "../components/ui/title";
 import SkeletonLoader from "../components/SkeletonLoader";
@@ -104,7 +105,17 @@ const Orders = () => {
 
   // Delete order
   const deleteOrder = async (orderId) => {
-    if (!window.confirm("Are you sure you want to delete this order?")) {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) {
       return;
     }
 
@@ -121,14 +132,14 @@ const Orders = () => {
 
       const data = await response.json();
       if (data.success) {
-        toast.success("Order deleted successfully");
+        Swal.fire("Deleted!", "Order deleted successfully.", "success");
         fetchOrders(); // Refresh orders
       } else {
-        toast.error(data.message || "Failed to delete order");
+        Swal.fire("Error!", data.message || "Failed to delete order", "error");
       }
     } catch (error) {
       console.error("Error deleting order:", error);
-      toast.error("Failed to delete order");
+      Swal.fire("Error!", "Failed to delete order", "error");
     }
   };
 
@@ -261,7 +272,7 @@ const Orders = () => {
         <Title>Orders Management</Title>
         <button
           onClick={fetchOrders}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          className="flex items-center gap-2 px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
           title="Refresh Orders"
         >
           <FaSync className="w-4 h-4" />
@@ -270,79 +281,79 @@ const Orders = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+      <div className="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4 lg:gap-6">
+        <div className="p-4 bg-white border border-gray-200 rounded-lg lg:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs lg:text-sm font-medium text-gray-600">
+              <p className="text-xs font-medium text-gray-600 lg:text-sm">
                 Total Orders
               </p>
-              <p className="text-xl lg:text-2xl font-bold text-gray-900">
+              <p className="text-xl font-bold text-gray-900 lg:text-2xl">
                 {orders.length}
               </p>
             </div>
-            <FaShoppingBag className="w-6 h-6 lg:w-8 lg:h-8 text-blue-600" />
+            <FaShoppingBag className="w-6 h-6 text-blue-600 lg:w-8 lg:h-8" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+        <div className="p-4 bg-white border border-gray-200 rounded-lg lg:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs lg:text-sm font-medium text-gray-600">
+              <p className="text-xs font-medium text-gray-600 lg:text-sm">
                 Pending
               </p>
-              <p className="text-xl lg:text-2xl font-bold text-yellow-600">
+              <p className="text-xl font-bold text-yellow-600 lg:text-2xl">
                 {orders.filter((o) => o.status === "pending").length}
               </p>
             </div>
-            <FaClock className="w-6 h-6 lg:w-8 lg:h-8 text-yellow-600" />
+            <FaClock className="w-6 h-6 text-yellow-600 lg:w-8 lg:h-8" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+        <div className="p-4 bg-white border border-gray-200 rounded-lg lg:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs lg:text-sm font-medium text-gray-600">
+              <p className="text-xs font-medium text-gray-600 lg:text-sm">
                 Delivered
               </p>
-              <p className="text-xl lg:text-2xl font-bold text-green-600">
+              <p className="text-xl font-bold text-green-600 lg:text-2xl">
                 {orders.filter((o) => o.status === "delivered").length}
               </p>
             </div>
-            <FaBox className="w-6 h-6 lg:w-8 lg:h-8 text-green-600" />
+            <FaBox className="w-6 h-6 text-green-600 lg:w-8 lg:h-8" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6 col-span-2 lg:col-span-1">
+        <div className="col-span-2 p-4 bg-white border border-gray-200 rounded-lg lg:p-6 lg:col-span-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs lg:text-sm font-medium text-gray-600">
+              <p className="text-xs font-medium text-gray-600 lg:text-sm">
                 Revenue
               </p>
-              <p className="text-xl lg:text-2xl font-bold text-purple-600">
+              <p className="text-xl font-bold text-purple-600 lg:text-2xl">
                 $
                 {orders
                   .reduce((sum, order) => sum + order.amount, 0)
                   .toFixed(2)}
               </p>
             </div>
-            <FaCreditCard className="w-6 h-6 lg:w-8 lg:h-8 text-purple-600" />
+            <FaCreditCard className="w-6 h-6 text-purple-600 lg:w-8 lg:h-8" />
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="p-4 mb-6 bg-white border border-gray-200 rounded-lg">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* Search */}
           <div className="relative sm:col-span-2 lg:col-span-1">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <FaSearch className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
             <input
               type="text"
               placeholder="Search orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -350,7 +361,7 @@ const Orders = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
             {statusOptions.map((status) => (
@@ -364,7 +375,7 @@ const Orders = () => {
           <select
             value={paymentFilter}
             onChange={(e) => setPaymentFilter(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Payments</option>
             {paymentStatusOptions.map((status) => (
@@ -379,7 +390,7 @@ const Orders = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="date">Sort by Date</option>
               <option value="amount">Sort by Amount</option>
@@ -387,7 +398,7 @@ const Orders = () => {
             </select>
             <button
               onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-              className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-3 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
               title={`Sort ${sortOrder === "asc" ? "Descending" : "Ascending"}`}
             >
               <FaSort className="w-4 h-4" />
@@ -397,33 +408,33 @@ const Orders = () => {
       </div>
 
       {/* Orders Table - Desktop */}
-      <div className="hidden lg:block bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="hidden overflow-hidden bg-white border border-gray-200 rounded-lg lg:block">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Order ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Items
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Amount
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Payment
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
                   Actions
                 </th>
               </tr>
@@ -438,8 +449,8 @@ const Orders = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-8 w-8">
-                        <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8">
+                        <div className="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full">
                           <FaUser className="w-4 h-4 text-gray-600" />
                         </div>
                       </div>
@@ -497,18 +508,18 @@ const Orders = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                     <div className="flex items-center justify-end space-x-2">
                       <button
                         onClick={() => handleEditOrder(order)}
-                        className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                        className="p-1 text-blue-600 rounded hover:text-blue-900"
                         title="Edit Order"
                       >
                         <FaEdit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => deleteOrder(order._id)}
-                        className="text-red-600 hover:text-red-900 p-1 rounded"
+                        className="p-1 text-red-600 rounded hover:text-red-900"
                         title="Delete Order"
                       >
                         <FaTrash className="w-4 h-4" />
@@ -522,9 +533,9 @@ const Orders = () => {
         </div>
 
         {filteredOrders.length === 0 && (
-          <div className="text-center py-12">
-            <FaShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="py-12 text-center">
+            <FaShoppingBag className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">
               No orders found
             </h3>
             <p className="text-gray-500">
@@ -537,11 +548,11 @@ const Orders = () => {
       </div>
 
       {/* Orders Cards - Mobile/Tablet */}
-      <div className="lg:hidden space-y-4">
+      <div className="space-y-4 lg:hidden">
         {filteredOrders.length === 0 ? (
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <FaShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="p-8 text-center bg-white border border-gray-200 rounded-lg">
+            <FaShoppingBag className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">
               No orders found
             </h3>
             <p className="text-gray-500">
@@ -554,12 +565,12 @@ const Orders = () => {
           filteredOrders.map((order) => (
             <div
               key={order._id}
-              className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm"
+              className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-3">
-                  <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                  <div className="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full">
                     <FaUser className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
@@ -574,14 +585,14 @@ const Orders = () => {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEditOrder(order)}
-                    className="text-blue-600 hover:text-blue-900 p-2 rounded-lg hover:bg-blue-50"
+                    className="p-2 text-blue-600 rounded-lg hover:text-blue-900 hover:bg-blue-50"
                     title="Edit Order"
                   >
                     <FaEdit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => deleteOrder(order._id)}
-                    className="text-red-600 hover:text-red-900 p-2 rounded-lg hover:bg-red-50"
+                    className="p-2 text-red-600 rounded-lg hover:text-red-900 hover:bg-red-50"
                     title="Delete Order"
                   >
                     <FaTrash className="w-4 h-4" />
@@ -591,7 +602,7 @@ const Orders = () => {
 
               {/* Customer Info */}
               <div className="mb-3">
-                <div className="text-sm text-gray-600 mb-1">Customer Email</div>
+                <div className="mb-1 text-sm text-gray-600">Customer Email</div>
                 <div className="text-sm font-medium text-gray-900">
                   {order.userId?.email || "N/A"}
                 </div>
@@ -600,14 +611,14 @@ const Orders = () => {
               {/* Order Details */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <div className="text-xs text-gray-500 mb-1">Date</div>
+                  <div className="mb-1 text-xs text-gray-500">Date</div>
                   <div className="flex items-center text-sm text-gray-900">
                     <FaCalendarAlt className="w-3 h-3 mr-1 text-gray-400" />
                     {new Date(order.date).toLocaleDateString()}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 mb-1">Items</div>
+                  <div className="mb-1 text-xs text-gray-500">Items</div>
                   <div className="text-sm text-gray-900">
                     {order.items.length} items
                   </div>
@@ -616,7 +627,7 @@ const Orders = () => {
 
               {/* Amount */}
               <div className="mb-4">
-                <div className="text-xs text-gray-500 mb-1">Amount</div>
+                <div className="mb-1 text-xs text-gray-500">Amount</div>
                 <div className="text-lg font-bold text-gray-900">
                   ${order.amount.toFixed(2)}
                 </div>
@@ -658,8 +669,8 @@ const Orders = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingOrder && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 p-4">
-          <div className="relative top-10 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+        <div className="fixed inset-0 z-50 w-full h-full p-4 overflow-y-auto bg-gray-600 bg-opacity-50">
+          <div className="relative w-full max-w-md p-5 mx-auto bg-white border rounded-md shadow-lg top-10">
             <div className="mt-3">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-medium text-gray-900">
@@ -670,26 +681,26 @@ const Orders = () => {
                     setShowEditModal(false);
                     setEditingOrder(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600 p-1"
+                  className="p-1 text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="mb-4">
-                <div className="text-sm text-gray-600 mb-2">
+                <div className="mb-2 text-sm text-gray-600">
                   Order #{editingOrder._id.slice(-8).toUpperCase()}
                 </div>
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
                   Order Status
                 </label>
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {statusOptions.map((status) => (
                     <option key={status} value={status}>
@@ -700,13 +711,13 @@ const Orders = () => {
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
                   Payment Status
                 </label>
                 <select
                   value={newPaymentStatus}
                   onChange={(e) => setNewPaymentStatus(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {paymentStatusOptions.map((status) => (
                     <option key={status} value={status}>
@@ -716,10 +727,10 @@ const Orders = () => {
                 </select>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <button
                   onClick={handleSaveChanges}
-                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="flex-1 px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
                   Save Changes
                 </button>
@@ -728,7 +739,7 @@ const Orders = () => {
                     setShowEditModal(false);
                     setEditingOrder(null);
                   }}
-                  className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium"
+                  className="flex-1 px-4 py-2 font-medium text-gray-700 transition-colors bg-gray-300 rounded-lg hover:bg-gray-400"
                 >
                   Cancel
                 </button>
